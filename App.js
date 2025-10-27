@@ -1,31 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
 import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity ,Button} from 'react-native';
+import Counter from './Counter.js';
 
-const Sum = (props) => {
-  return(<Text>{props.num1 + props.num2}</Text>);
-}
-
-const Counter = () => {
-  const [count, setCount] = useState(0);
-  return (  
+const usercard = ({name, age}) => {
+  return(
     <View>
-      <Text>valor: {count}</Text>
-      <Button title='+' onPress={() => setCount(count + 1)}/>
+      <Text>{name}</Text>
+      <Text>{age}</Text>
     </View>
-  );
+  )
 }
-
 export default function App() {
+
+  const users =[
+
+    {id: 1, nome: "Maria", idade: 20},
+    {id: 2, nome: "João", idade: 21},
+    {id: 3, nome: "Pedro", idade: 22},
+    {id: 4, nome: "Ana", idade: 23},
+    {id: 5, nome: "Carlos", idade: 24},
+    {id: 6, nome: "Laura", idade: 25},
+    {id: 7, nome: "Marcelo", idade: 26},
+    {id: 8, nome: "Julia", idade: 27},
+  ]
+  const [showCounter,setShowCounter] = useState(false);
+  const Sum = (props) =>{
+    return(<Text>{props.num1 + props.num2}</Text>);
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Sum num1={10} num2={20}/>
-      <View style={{backgroundColor:'red'}}>
-        <Text>Inner view</Text>
-      </View>
-      <Counter />
-      <StatusBar style="auto" />
+{users.map((user)=>(<usercard key={user.id} name={user.nome} age={user.idade}/>))}
     </View>
   );
 }
@@ -37,4 +42,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text:{
+    fontsize: 18,
+    marginTop: 20
+  },
+  button:{
+    fontsize: 20,
+    color:"blue",
+    back: "red",
+  },
 });
+
