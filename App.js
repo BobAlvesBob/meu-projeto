@@ -1,42 +1,21 @@
+import React, { useState } from 'react';
+import { Modal, View, Text, Button } from 'react-native';
 
-import React from 'react';
-import { View, SectionList, Text, StyleSheet } from 'react-native';
+export default function App() {
+  const [visible, setVisible] = useState(false);
 
-const DATA = [
-  {
-    title: 'A',
-    data: ['Alice', 'Alan'],
-  },
-  {
-    title: 'B',
-    data: ['Bob', 'Bella'],
-  },
-  {
-    title: 'C',
-    data: ['Charlie', 'Chloe'],
-  },
-];
-const App = () => {
   return (
-    <View style={styles.container}>
-      <SectionList
-        sections={DATA} // Grouped data
-        keyExtractor={(item, index) => item + index} // Unique key for each item
-        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>} // How each item looks
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.header}>{title}</Text> // Section headers (A, B, C)
-        )}
-      />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Button title="Abrir Modal" onPress={() => setVisible(true)} />
+      
+      <Modal visible={visible} transparent={true} animationType="slide">
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+            <Text>Este é um Modal!</Text>
+            <Button title="Fechar" onPress={() => setVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#f5f5f5' },
-  header: { fontSize: 22, fontWeight: 'bold', backgroundColor: '#ddd', padding: 5 },
-  item: { padding: 10, fontSize: 18, borderBottomWidth: 1, borderColor: '#ccc' },
-});
-
-export default App;
-
-
+}
