@@ -1,42 +1,58 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 
-const AnimatedBox = () => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial opacity: 0
-  const translateYAnim = useRef(new Animated.Value(50)).current; // Moves 50px down
+export default function App() {
+  const [bgColor, setBgColor] = useState('#fff');
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1, // Fully visible
-        duration: 10000, // 1 second duration
-        useNativeDriver: true,
-      }),
-      Animated.timing(translateYAnim, {
-        toValue: 0, // Moves up to original position
-        duration: 10000,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
+  const showInfoAlert = () => {
+    Alert.alert("Alerta informativo", "Pressione OK para fechar");
+  };
+
+  const showYesNoAlert = () => {
+    Alert.alert(
+      "Confirmação",
+      "Você deseja continuar?",
+      [
+        { text: "NÃO", onPress: () => console.log("Opção escolhida: NÃO") },
+        { text: "SIM", onPress: () => console.log("Opção escolhida: SIM") },
+      ]
+    );
+  };
+
+  const showColorAlert = () => {
+    Alert.alert(
+      "Escolha uma cor",
+      "Verde, Vermelho ou Branco",
+      [
+        { text: "Verde", onPress: () => setBgColor("green") },
+        { text: "Vermelho", onPress: () => setBgColor("red") },
+        { text: "Branco", onPress: () => setBgColor("white") },
+      ]
+    );
+  };
 
   return (
-    <Animated.View style={[styles.box, { opacity: fadeAnim, transform: [{ translateY: translateYAnim }] }]} />
-  );
-};
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <AnimatedBox />
+    <View style={[styles.container, { backgroundColor: bgColor }]}>
+      <Text style={styles.title}>Aplicação de Alertas</Text>
+      <Button title="Informativo" onPress={showInfoAlert} />
+      <Button title="SIM ou NÃO" onPress={showYesNoAlert} style={styles.button} />
+      <Button title="Cor de fundo" onPress={showColorAlert} style={styles.button} />
     </View>
   );
-};
+}
+
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  box: { width: 100, height: 100, backgroundColor: 'blue', borderRadius: 10 },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  button: {
+    marginVertical: 10,
+  },
 });
-
-export default App;
-
-
-
