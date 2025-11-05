@@ -1,42 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 export default function App() {
-  const [bgColor, setBgColor] = useState('#fff');
-
-  const showInfoAlert = () => {
-    Alert.alert("Alerta informativo", "Pressione OK para fechar");
-  };
-
-  const showYesNoAlert = () => {
-    Alert.alert(
-      "Confirmação",
-      "Você deseja continuar?",
-      [
-        { text: "NÃO", onPress: () => console.log("Opção escolhida: NÃO") },
-        { text: "SIM", onPress: () => console.log("Opção escolhida: SIM") },
-      ]
-    );
-  };
-
-  const showColorAlert = () => {
-    Alert.alert(
-      "Escolha uma cor",
-      "Verde, Vermelho ou Branco",
-      [
-        { text: "Verde", onPress: () => setBgColor("green") },
-        { text: "Vermelho", onPress: () => setBgColor("red") },
-        { text: "Branco", onPress: () => setBgColor("white") },
-      ]
-    );
-  };
+  const [userModalidade, setUserModalidade] = useState('');
 
   return (
-    <View style={[styles.container, { backgroundColor: bgColor }]}>
-      <Text style={styles.title}>Aplicação de Alertas</Text>
-      <Button title="Informativo" onPress={showInfoAlert} />
-      <Button title="SIM ou NÃO" onPress={showYesNoAlert} style={styles.button} />
-      <Button title="Cor de fundo" onPress={showColorAlert} style={styles.button} />
+    <View style={styles.container}>
+      <Text style={styles.label}>Escolha uma modalidade:</Text>
+
+      <Picker
+        selectedValue={userModalidade}
+        onValueChange={(itemValue) => setUserModalidade(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Selecione a Modalidade" value="" />
+        <Picker.Item label="Futebol" value="futebol" />
+        <Picker.Item label="Vôlei" value="volei" />
+        <Picker.Item label="Basquete" value="basquete" />
+      </Picker>
+
+      {userModalidade !== '' && (
+        <Text style={styles.resultado}>
+          🏅 Modalidade selecionada: <Text style={{ fontWeight: 'bold' }}>{userModalidade}</Text>
+        </Text>
+      )}
     </View>
   );
 }
@@ -44,15 +32,24 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 80,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  label: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  picker: {
+    height: 50,
+    backgroundColor: '#f0f0f0',
     marginBottom: 20,
   },
-  button: {
-    marginVertical: 10,
+  resultado: {
+    marginTop: 20,
+    fontSize: 16,
+    color: '#333',
   },
 });
+
+
